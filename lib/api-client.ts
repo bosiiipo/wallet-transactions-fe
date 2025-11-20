@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://wallet-transactions-production-fe3f.up.railway.app/api';
 
 interface TransactionFilters {
   q?: string;
