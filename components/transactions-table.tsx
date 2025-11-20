@@ -22,7 +22,7 @@ interface TransactionsTableProps {
   };
   page: number;
   onPageChange: (page: number) => void;
-  onTransactionsLoaded?: (data: Transaction[]) => void;
+  onTransactionsLoaded?: (data: Transaction[], summary: { total_in: number; total_out: number }) => void;
   optimisticTransaction?: Transaction;
 }
 
@@ -48,17 +48,20 @@ export function TransactionsTable({
       page,
       per_page: perPage,
     })
-      .then((data) => {
-        setTransactions(data.data);
-        setTotalCount(data.total_count);
-        onTransactionsLoaded?.(data.data);
+      .then((res) => {
+        setTransactions(res.data);
+        setTotalCount(res.meta.total);
+
+        // Pass both transactions and summary up
+        onTransactionsLoaded?.(res.data, res.summary);
       })
       .catch((err) => {
         setError(err.message);
-        console.error('[v0] Error fetching transactions:', err);
+        console.error('Error fetching transactions:', err);
       })
       .finally(() => setLoading(false));
-  }, [filters, page, onTransactionsLoaded]);
+}, [filters, page, onTransactionsLoaded]);
+
 
   // Add optimistic transaction to the top of the list
   const displayedTransactions = optimisticTransaction

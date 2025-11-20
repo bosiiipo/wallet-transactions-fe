@@ -20,12 +20,17 @@ interface Transaction {
 
 interface TransactionsResponse {
   data: Transaction[];
-  total_in: number;
-  total_out: number;
-  total_count: number;
-  page: number;
-  per_page: number;
+  meta: {
+    total: number;
+    page: number;
+    per_page: number;
+  };
+  summary: {
+    total_in: number;
+    total_out: number;
+  };
 }
+
 
 interface NewTransactionPayload {
   type: 'credit' | 'debit';

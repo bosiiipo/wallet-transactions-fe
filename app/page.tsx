@@ -42,9 +42,11 @@ export default function Dashboard() {
     setError(errorMsg);
   };
 
-  const handleTransactionsLoaded = (transactions: Transaction[]) => {
-    // Recompute totals from fresh data (could also come from API response)
-    // This ensures we stay in sync
+  const handleTransactionsLoaded = (
+    transactions: Transaction[],
+    summary: { total_in: number; total_out: number }
+  ) => {
+    setTotals(summary); // update total_in / total_out
   };
 
   return (
