@@ -22,6 +22,7 @@ export function NewTransactionForm({ onSuccess, onError }: NewTransactionFormPro
   const [type, setType] = useState<'credit' | 'debit'>('credit');
   const [amount, setAmount] = useState('');
   const [reference, setReference] = useState('');
+  // const [idempotencyKey, setIdempotencyKey] = useState('');
   const [loading, setLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
@@ -35,6 +36,10 @@ export function NewTransactionForm({ onSuccess, onError }: NewTransactionFormPro
     if (!amount || parseFloat(amount) <= 0) {
       errors.amount = 'Amount must be greater than 0';
     }
+
+    // if (!idempotencyKey.trim()) {
+    //   errors.idempotencyKey = 'Idempotency key is required';
+    // }
 
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
@@ -60,6 +65,7 @@ export function NewTransactionForm({ onSuccess, onError }: NewTransactionFormPro
       onSuccess(transaction);
       setReference('');
       setAmount('');
+      // setIdempotencyKey('');
       setType('credit');
       setValidationErrors({});
     } catch (err) {
@@ -128,6 +134,22 @@ export function NewTransactionForm({ onSuccess, onError }: NewTransactionFormPro
               <p className="text-destructive text-sm mt-1">{validationErrors.reference}</p>
             )}
           </div>
+
+          {/* <div>
+            <label htmlFor="idempotencyKey" className="text-sm font-medium">
+              Reference
+            </label>
+            <Input
+              id="idempotencyKey"
+              placeholder="e.g., INV-001"
+              value={idempotencyKey}
+              onChange={(e) => setIdempotencyKey(e.target.value)}
+              data-testid="form-reference-input"
+            />
+            {validationErrors.idempotencyKey && (
+              <p className="text-destructive text-sm mt-1">{validationErrors.idempotencyKey}</p>
+            )}
+          </div> */}
 
           <input type="hidden" name="wallet_id" value="1" />
 

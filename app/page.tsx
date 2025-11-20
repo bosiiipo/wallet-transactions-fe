@@ -13,6 +13,7 @@ export default function Dashboard() {
   const [totals, setTotals] = useState({ total_in: 0, total_out: 0 });
   const [optimisticTransaction, setOptimisticTransaction] = useState<Transaction | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [reloadFlag, setReloadFlag] = useState(0);
 
   const handleFilterChange = (newFilters: Record<string, any>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
@@ -21,7 +22,7 @@ export default function Dashboard() {
 
   const handleTransactionSuccess = (transaction: Transaction) => {
     // Show optimistic update
-    setOptimisticTransaction(transaction);
+    // setOptimisticTransaction(transaction);
     setError(null);
 
     // Update totals optimistically
@@ -33,7 +34,8 @@ export default function Dashboard() {
     }));
 
     // Clear optimistic state after a short delay
-    setTimeout(() => setOptimisticTransaction(null), 500);
+    // setTimeout(() => setOptimisticTransaction(null), 500);
+      setReloadFlag(prev => prev + 1);
   };
 
   const handleTransactionError = (errorMsg: string) => {
